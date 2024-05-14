@@ -31,6 +31,16 @@ class DBClient {
     const count = await collection.countDocuments();
     return count;
   }
+  async getUser(email) {
+    const collection = this.client.db().collection('users');
+    const user = await collection.findOne({ email });
+    return user;
+  }
+  async createUser(newUser) {
+    const collection = this.client.db().collection('users');
+    const result = await collection.insertOne(newUser);
+    return result;
+  }
 }
 
 const dbClient = new DBClient();
