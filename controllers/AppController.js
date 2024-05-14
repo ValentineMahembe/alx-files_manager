@@ -1,20 +1,20 @@
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 
-const AppController = {
-  getStatus: async (req, res) => {
-    const redisAlive = redisClient.isAlive();
-    const dbAlive = dbClient.isAlive();
+class AppController {
+  static async getStatus(request, response) {
+    const redisStatus = redisClient.isAlive();
+    const dbStatus = dbClient.isAlive();
+    response.set('Content-Type', 'application/json');
+    response.status(200).json({ redis: redisStatus, db: dbStatus }).end();
+  }
 
-    res.status(200).json({ redis: redisAlive, db: dbAlive });
-  },
-
-  getStats: async (req, res) => {
-    const nbUsers = await dbClient.nbUsers();
-    const nbFiles = await dbClient.nbFiles();
-
-    res.status(200).json({ users: nbUsers, files: nbFiles });
-  },
-};
+  static async getStats(request, response) {
+    const users = await dbClient.nbUsers();
+    const files = await dbClient.nbFiles();
+    response.set('Content-Type', 'application/json');
+    response.status(200).json({ users, files }).end();
+  }
+}
 
 export default AppController;
