@@ -1,4 +1,5 @@
 import express from 'express';
+import { Router } from 'express'
 import AuthController from '../controllers/AuthController';
 import UsersController from '../controllers/UsersController';
 import AppController from '../controllers/AppController';
@@ -20,5 +21,10 @@ router.post('/users', UsersController.postNew);
 
 // Files routes
 router.post('/files', FilesController.postUpload);
+router.post('/files', FilesController.postUpload);
+router.get('/files/:id', FilesController.getShow);
+router.get('/files', FilesController.getIndex);
+router.put('/files/:id/publish', FilesController.putPublish);
+router.put('/files/:id/unpublish', FilesController.putUnpublish);
 
 export default router;
